@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Manifold MEV bounty | Blog</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Manifold MEV bounty" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How I got the second place in the Manifold MEV bounty" />
+<meta property="og:description" content="How I got the second place in the Manifold MEV bounty" />
+<link rel="canonical" href="http://localhost:4000/manifold/mev/bounty/2022/10/24/Manifold.html" />
+<meta property="og:url" content="http://localhost:4000/manifold/mev/bounty/2022/10/24/Manifold.html" />
+<meta property="og:site_name" content="Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-24T11:59:03+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Manifold MEV bounty" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-24T11:59:03+03:00","datePublished":"2022-10-24T11:59:03+03:00","description":"How I got the second place in the Manifold MEV bounty","headline":"Manifold MEV bounty","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/manifold/mev/bounty/2022/10/24/Manifold.html"},"url":"http://localhost:4000/manifold/mev/bounty/2022/10/24/Manifold.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/notes.html">How I got the second place in the Manifold MEV bounty</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Manifold MEV bounty</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2022-10-24T11:59:03+03:00" itemprop="datePublished">Oct 24, 2022
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="how-i-got-the-second-place-in-the-manifold-mev-bounty">How I got the second place in the Manifold MEV bounty</h1>
+
+<p>In this article I will explain my strategy and how I got the second place in the MEV bounty competition. Details of the competition can be found <a href="https://medium.com/encode-club/manifold-mev-bounty-competition-launch-event-video-resources-b0a337fb3067?source=friends_link&amp;sk=191174512f520103921444d8677060df">here</a>.</p>
+
+<h2 id="the-goal">The goal</h2>
+
+<p>On the network are some bots that simulate trades of various sizes and tokens. The goal is to extract the most value from the network by capturing inefficiencies. There are 3 tokens and 3 LP-pools. Try to get the most amount of tokens. The network is a private EVM chain operated by the organisor of the bounty, Manifold.</p>
+
+<h2 id="what-we-start-with">What we start with</h2>
+
+<p>To start with: The only thing all participants get is the public RPC endoint (IP-address and port) and some other basic info. The API’s enabled are eth and web. This makes it impossible to fork the chain. It is also not possible to run your own node.</p>
+
+<p>Because this is a private chain operated by Manifold, there is no way to do any trades without their token. So all participants have to wait for the token drops in their addresses to be able to do something. Meanwhile we could listen to the chain to see what is happening already. We also didn’t know how much of each token we will receive. During the sign-up you could provide an address to receive your tokens. Because I already saw the Manifold bots doing their simulation trading by listening to events, I had an address list of these bots. I decided to create an address close to one of their bots to confuse other participants. My address starts with 0xf80b.. and so did one of the manifold bots.</p>
+
+<h2 id="the-drop">The drop</h2>
+
+<p>After signing up all participants waited for the airdrop. For some reason this took a while and wrote a small script in Python to tell me if I received an airdrop:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from datetime import datetime
+from time import sleep
+from brownie import *
+
+def main():
+    
+    while True:
+        my_account = "0xf80bdf51d6abf9f872fee2d76e40343f07758640"
+        balance = web3.eth.get_balance(web3.toChecksumAddress(my_account))
+        now = datetime.now()
+        
+        if balance &gt; 0:
+            print(f"{now}: Airdrop received! Your balance: {balance}")
+        else:
+            print(f"{now}: Airdrop not received...")
+        sleep(60)
+    
+</code></pre></div></div>
+
+<p>Meanwhile I brainstormed how to capture value. I realized that if I received tokens, other participants will also receive tokens. So after I received the airdrop, I scanned the logs to see which addresses also received this airdrop. I now have a list of all participants in this bounty. The code to scan logs can be found <a href="https://github.com/leonpw/manifold">here</a>.</p>
+
+<h2 id="listen">Listen</h2>
+
+<p>To see what happens on chain I created a ‘pending transaction listener’. Subscribe to a websocket pointing to the rpc endpoint. When a pending transaction hash is received, call the GetTransactionByHash to see what is in this pending transaction. Now most of the transactions send by the manifold bots have the function signature matching “SwapExactTokensForTokensFunction”. This is a well known function to swap token A to token B. Luckily the contract code is widely available on the internet and we can decode our transaction input. What we know now is:</p>
+
+<p>Who is trading what and how much of them. We also know the gas price this user is willing to pay and their deadline. In the console it looks like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x56cc8b: to 0x9390D0 Gas:         1000000 GasPrice:     19000000000 In:        616 OutMin:          0 of 0xd03B58 to 0x9390D0 deadline 9999999999999999
+0x7d4923: to 0x9390D0 Gas:         1000000 GasPrice:     15000000000 In:      13128 OutMin:          0 of 0xcadA75 to 0x9390D0 deadline 9999999999999999
+</code></pre></div></div>
+
+<p>Bot 0x56cc wants to swap 616 tokens of 0xd0 to 0x93. He doesn’t care how long it will take or how much he will get in return. The next line tells the same thing for bot 0x7d who wants 13128 tokens swapped to something else.</p>
+
+<h2 id="what-we-know-so-far">What we know so far</h2>
+
+<p>There is a dex with 3 liquidity pools and 3 tokens trading:</p>
+
+<p>Token A: weth
+Token B: wbtc
+Token C: mani</p>
+
+<p>Pool 1 has token A and token B
+Pool 2 has token C and token A
+Pool 3 has token C and token B</p>
+
+<p>For simplicity I call the pools respectively LPAB, PLCA and LPCB in my contracts. So I know which tokens and in which order I can find in the pool.</p>
+
+<p>In our starting position all participants also received some of the tokens A, B and C. We all started with:
+WETH: 1000  WBTC: 100  MANI: 100000. (Respectively A, B &amp; C.)</p>
+
+<p>There are about 10 bots trading randomly 3 tokens. Doing a spatial arbitrage is not possible because there are no other pools trading the exact same tokens. There is only 1 pool with tokens A and B trading. But what we could do is a triangular arbitrage. Buy token A for cheap on AB with B, sell on AC for C and sell C for B. If you end up with more B than you start with, you made a small profit. This can be done for any starting position (A, B or C) and in 2 directions. It’s literally a triangle.</p>
+
+<p><a href="/static/images/triangular arb.png">Example of a triangular arb</a></p>
+
+<p>Because we all started with some token A, B and C, we could use our own tokens to start with. And I did this triangular arbitrage at the end of every block. If I didn’t end up with a profit, just revert the transaction. Because there are 2 directions to trade, I added another starting position, token B, that traded the other direction.</p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>After every block I send 2 transactions. One to trade A and one to trade B in different direction.
+To figure out how much they should trade with I use a bitmask on a uint256. With this way I can fit 3 different variables in 1 uint256.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>uint amount1 = (actionFlags &amp; 0x000000000000ffffff000000) / 0xffffff; 
+uint amount2 = (actionFlags &amp; 0x000000ffffff000000000000) / 0xffffffffffff; 
+</code></pre></div></div>
+
+<p>This costs me a lot of gas. Because most transactions would revert. One transaction would always revert, because it is impossible that both transactions would be profitable. So before every round trip I calculate if the whole trip is profitable on-chain. I get the reserves of all 3 pools and calculate if the trip is profitable;</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    function GetReserves() internal view returns( Reserves memory r) {
+        ( r.LPAB0, r.LPAB1,) = IUniswapV2Pair(LPAB).getReserves();
+        ( r.LPCB0, r.LPCB1,) = IUniswapV2Pair(LPCB).getReserves();
+        ( r.LPCA0, r.LPCA1,) = IUniswapV2Pair(LPCA).getReserves();
+    }
+
+    function calcTrip1(uint amountIn, Reserves memory  r) internal pure returns(uint out1,uint out2,uint out3) {
+        out1 = getAmountOut(r.LPAB0, r.LPAB1, amountIn );
+        out2 = getAmountOut(r.LPCB1, r.LPCB0, out1 );
+        out3 = getAmountOut(r.LPCA0, r.LPCA1, out2);
+    }
+
+    function calcTrip2(uint amountIn, Reserves memory r) internal pure returns(uint out1,uint out2,uint out3) {
+         out1 = getAmountOut(r.LPAB1, r.LPAB0, amountIn);
+         out2 = getAmountOut(r.LPCA1, r.LPCA0, out1);
+         out3 = getAmountOut(r.LPCB0, r.LPCB1, out2);
+    }
+
+</code></pre></div></div>
+
+<p>To do the actual roundtrip;</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    function roundTrip1(uint256 amountIn, uint256 out1, uint256 out2, uint256 out3) internal {
+        
+        IERC20Token(TOKEN_A).transferFrom(msg.sender, address(LPAB), amountIn);
+
+        IUniswapV2Pair(LPAB).swap(0, out1, address(LPCB), new bytes(0));
+        IUniswapV2Pair(LPCB).swap(out2, 0, address(LPCA), new bytes(0));
+        IUniswapV2Pair(LPCA).swap(0, out3, owner1, new bytes(0));
+    }
+
+     function roundTrip2(uint256 amountIn, uint256 out1, uint256 out2, uint256 out3) internal {
+
+        IERC20Token(TOKEN_B).transferFrom(msg.sender, address(LPAB), amountIn);
+        IUniswapV2Pair(LPAB).swap(out1, 0, address(LPCA), new bytes(0));
+        IUniswapV2Pair(LPCA).swap(out2, 0, address(LPCB), new bytes(0));
+        IUniswapV2Pair(LPCB).swap(0, out3, owner1, new bytes(0));
+    }
+ 
+</code></pre></div></div>
+
+<p>After every block the following is happening:
+Send 1 transaction to the contract with Token A and Token B amount in 1 uint256.
+Contract calculates if Token A clockwise is profitable. Execute if it is.
+If not profitable, calculate Token B counter clockwise. Execute if it is.
+If none are profitable; revert the transaction as if nothing happened.</p>
+
+<p>This technique worked pretty well. My stack of token A and B is growing. It is impossible to lose any tokens this way. It costs me gas, but I had enough to do this until the bounty ends. But there is more value to be extracted.</p>
+
+<h2 id="a-problem">A problem</h2>
+
+<p>This technique has some disadvantages. Only 1 transaction per block will be executed. If I would spam the block after every other transaction, most of them will not be executed, because the nonces are not in order. Every time an account sends a transaction to the miner, the nonce will be incremented, but they are executed based on gas price. So if I would send 5 transactions with nonces 1, 2, 3, 4, 5, but gas price 100, 400, 300, 200, 500, then in the next block only transaction 1 will be executed. The one with the highest gas price, transaction 5, with 500 gas can only be executed after 4. And 4 after 3 and so on.</p>
+
+<p>The other disadvantage is that I can only use the tokens I have in that account to trade with. Splitting up the stack and use multiple addresses would not help. The profit is a percentage of the initial stack you trade with.</p>
+
+<h2 id="the-upgrade">The upgrade</h2>
+
+<p>Luckily I found a solution for that. The code the liquidity pools are running can be found <a href="https://etherscan.deth.net/address/0x115934131916c8b277dd010ee02de363c09d037c#code" target="_blank">here</a>.</p>
+
+<p>The low-level swap function starts at line 193 in UniswapV2Pair.sol</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    // this low-level function should be called from a contract which performs important safety checks
+    function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external lock {
+        require(amount0Out &gt; 0 || amount1Out &gt; 0, 'UniswapV2: INSUFFICIENT_OUTPUT_AMOUNT');
+        (uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings
+        require(amount0Out &lt; _reserve0 &amp;&amp; amount1Out &lt; _reserve1, 'UniswapV2: INSUFFICIENT_LIQUIDITY');
+
+        uint balance0;
+        uint balance1;
+        { // scope for _token{0,1}, avoids stack too deep errors
+        address _token0 = token0;
+        address _token1 = token1;
+        require(to != _token0 &amp;&amp; to != _token1, 'UniswapV2: INVALID_TO');
+        if (amount0Out &gt; 0) _safeTransfer(_token0, to, amount0Out); // optimistically transfer tokens
+        if (amount1Out &gt; 0) _safeTransfer(_token1, to, amount1Out); // optimistically transfer tokens
+        if (data.length &gt; 0) IUniswapV2Callee(to).uniswapV2Call(msg.sender, amount0Out, amount1Out, data);
+        balance0 = IERC20Uniswap(_token0).balanceOf(address(this));
+        balance1 = IERC20Uniswap(_token1).balanceOf(address(this));
+        }
+        uint amount0In = balance0 &gt; _reserve0 - amount0Out ? balance0 - (_reserve0 - amount0Out) : 0;
+        uint amount1In = balance1 &gt; _reserve1 - amount1Out ? balance1 - (_reserve1 - amount1Out) : 0;
+        require(amount0In &gt; 0 || amount1In &gt; 0, 'UniswapV2: INSUFFICIENT_INPUT_AMOUNT');
+        { // scope for reserve{0,1}Adjusted, avoids stack too deep errors
+        uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(totalFee));
+        uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(totalFee));
+        require(balance0Adjusted.mul(balance1Adjusted) &gt;= uint(_reserve0).mul(_reserve1).mul(1000**2), 'UniswapV2: K');
+        }
+
+        _update(balance0, balance1, _reserve0, _reserve1);
+        emit Swap(msg.sender, amount0In, amount1In, amount0Out, amount1Out, to);
+    }
+</code></pre></div></div>
+
+<p>Instead of using my own tokens to trade, I flashloan them from the V2 pool. But there is no flashloan functionallity implemented? True, but look at line 206. There is a uniswapV2Call that calls the sender with the calldata supplied by… the sender.</p>
+
+<p>So how can we make use of this?</p>
+
+<p>Let’s say we want to do the triangular arbitrage with 10000 of token C. (I was short of mani, because I made a mistake at the start of the bounty)</p>
+
+<p>We don’t have this token yet nor do we have any starting tokens.</p>
+
+<p>We go to pool CB to trade 10000 of C to B. (We didn’t send anything yet to pool CB.) Pool CB transfers us token B and calls our contract with uniswapV2Call. We know the sender is CB. We swap the token B to A on pool AB. We know have token A. We swap A to C on pool CA. We now have token C and we send 10000 of token C to pool CB. The surplus is profit and is send to the original sender. The callback uniswapV2Call now ends and pool CB continues executing and checks its own balance of token C on line 207.</p>
+
+<p>The whole execution is permissionless and anyone could call the contract. My own tokens are not envolved in the arbitrage. Only the profits are being send back. Before calling the pools, we first check if it is profitable and if not, we calculate the other direction, take out token A on LPCA, Swap A -&gt; B on LPAB, swap B -&gt; C on LPCB, repay LPCA.</p>
+
+<p>If no direction is profitable then revert. If it is, just execute and send tokens to our staking address. Because of the permissionless design, I can now spin up an unlimited amount of bots all participating in the same arbitraging opportunity without having their nonces messed up or have to worry about allowances. I filled up 12 addressses with gas tokens. If a pending transaction comes in, the first runner will try to arbitrage before and after the transaction and stays idle until the transactions are mined. If another x amount of transactions will come in, x amount of runners will do the exact same. This is a shotgun approach. Shoot at whatever moves and hope you hit something.</p>
+
+<p>This technique worked pretty well. With sometimes having 3 profitable arbitrages in the same block:</p>
+
+<p><img src="/static/images/screen1.png" alt="screenshot1" /></p>
+
+<h1 id="final-note">Final note</h1>
+
+<p>Did it work? Kinda. Should you use this in a production environment? Definitely not! Why not? This is a huge waste of gas. All code I used was written for the purpose of this bounty and will be public shortly after.</p>
+
+<p>Congrats to the other 2 bounty competition winners! Thanks to Manifold for creating the bounty and thanks for the Encode club for the organisation.</p>
+
+<p>Hope you enjoyed!</p>
+
+<p>SlappyChuck</p>
+
+
+  </div><a class="u-url" href="/manifold/mev/bounty/2022/10/24/Manifold.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Blog</li><li><a class="u-email" href="mailto:blog@wieisleon.nl">blog@wieisleon.nl</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/leonpw"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">leonpw</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
