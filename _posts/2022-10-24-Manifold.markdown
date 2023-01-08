@@ -86,7 +86,7 @@ WETH: 1000  WBTC: 100  MANI: 100000. (Respectively A, B & C.)
 
 There are about 10 bots trading randomly 3 tokens. Doing a spatial arbitrage is not possible because there are no other pools trading the exact same tokens. There is only 1 pool with tokens A and B trading. But what we could do is a triangular arbitrage. Buy token A for cheap on AB with B, sell on AC for C and sell C for B. If you end up with more B than you start with, you made a small profit. This can be done for any starting position (A, B or C) and in 2 directions. It's literally a triangle.
 
-[Example of a triangular arb]({{ site.baseurl }}/static/images/triangular arb.png)
+![Example of a triangular arb]({{ site.baseurl }}/static/images/triangulararb.png)
 
 
 Because we all started with some token A, B and C, we could use our own tokens to start with. And I did this triangular arbitrage at the end of every block. If I didn't end up with a profit, just revert the transaction. Because there are 2 directions to trade, I added another starting position, token B, that traded the other direction.
@@ -235,7 +235,3 @@ Did it work? Kinda. Should you use this in a production environment? Definitely 
 Congrats to the other 2 bounty competition winners! Thanks to Manifold for creating the bounty and thanks for the Encode club for the organisation.
 
 Hope you enjoyed!
-
-SlappyChuck
-
-

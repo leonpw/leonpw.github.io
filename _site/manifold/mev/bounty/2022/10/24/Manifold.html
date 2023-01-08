@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Manifold MEV bounty | Blog</title>
+<title>Manifold MEV bounty | wieisleon.nl</title>
 <meta name="generator" content="Jekyll v3.9.2" />
 <meta property="og:title" content="Manifold MEV bounty" />
 <meta property="og:locale" content="en_US" />
@@ -11,7 +11,7 @@
 <meta property="og:description" content="How I got the second place in the Manifold MEV bounty" />
 <link rel="canonical" href="http://localhost:4000/manifold/mev/bounty/2022/10/24/Manifold.html" />
 <meta property="og:url" content="http://localhost:4000/manifold/mev/bounty/2022/10/24/Manifold.html" />
-<meta property="og:site_name" content="Blog" />
+<meta property="og:site_name" content="wieisleon.nl" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-10-24T11:59:03+03:00" />
 <meta name="twitter:card" content="summary" />
@@ -19,10 +19,10 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-24T11:59:03+03:00","datePublished":"2022-10-24T11:59:03+03:00","description":"How I got the second place in the Manifold MEV bounty","headline":"Manifold MEV bounty","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/manifold/mev/bounty/2022/10/24/Manifold.html"},"url":"http://localhost:4000/manifold/mev/bounty/2022/10/24/Manifold.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Blog" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="wieisleon.nl" /></head>
 <body><header class="site-header" role="banner">
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/">Blog</a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">wieisleon.nl</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -32,7 +32,7 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/notes.html">How I got the second place in the Manifold MEV bounty</a></div>
+        <div class="trigger"><a class="page-link" href="/">Welcome</a><a class="page-link" href="/portfolio/">🧵 Portfolio</a><a class="page-link" href="/resume/">📃 Resume</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -117,7 +117,7 @@ WETH: 1000  WBTC: 100  MANI: 100000. (Respectively A, B &amp; C.)</p>
 
 <p>There are about 10 bots trading randomly 3 tokens. Doing a spatial arbitrage is not possible because there are no other pools trading the exact same tokens. There is only 1 pool with tokens A and B trading. But what we could do is a triangular arbitrage. Buy token A for cheap on AB with B, sell on AC for C and sell C for B. If you end up with more B than you start with, you made a small profit. This can be done for any starting position (A, B or C) and in 2 directions. It’s literally a triangle.</p>
 
-<p><a href="/static/images/triangular arb.png">Example of a triangular arb</a></p>
+<p><img src="/static/images/triangulararb.png" alt="Example of a triangular arb" /></p>
 
 <p>Because we all started with some token A, B and C, we could use our own tokens to start with. And I did this triangular arbitrage at the end of every block. If I didn’t end up with a profit, just revert the transaction. Because there are 2 directions to trade, I added another starting position, token B, that traded the other direction.</p>
 
@@ -251,9 +251,6 @@ If none are profitable; revert the transaction as if nothing happened.</p>
 
 <p>Hope you enjoyed!</p>
 
-<p>SlappyChuck</p>
-
-
   </div><a class="u-url" href="/manifold/mev/bounty/2022/10/24/Manifold.html" hidden></a>
 </article>
 
@@ -263,19 +260,19 @@ If none are profitable; revert the transaction as if nothing happened.</p>
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">Blog</h2>
+    <h2 class="footer-heading">wieisleon.nl</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">Blog</li><li><a class="u-email" href="mailto:blog@wieisleon.nl">blog@wieisleon.nl</a></li></ul>
+          <li class="p-name">wieisleon.nl</li><li><a class="u-email" href="mailto:blog@wieisleon.nl">blog@wieisleon.nl</a></li></ul>
       </div>
 
       <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/leonpw"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">leonpw</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+        <p></p>
       </div>
     </div>
 
