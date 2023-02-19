@@ -9,6 +9,28 @@ Things I created for fun.
 ***
 <br>
 
+
+
+
+# Cover Letter AI #
+
+Cover Letter AI is an automated system to generate a cover letter for a job application. Using chatGPT give it the Position, Company name and the full job description and it generates the cover letter for you!
+
+
+![screenshot](./coverletter.png)
+
+<br>
+[Live app](https://cover-letter.wieisleon.nl/){:target="_blank"}
+ <br>
+[Source](https://github.com/leonpw/gpt-cover-letter){:target="_blank"}
+ <br> 
+[Blog post](https://wieisleon.nl/cover/letter/ai/react/typescript/2023/02/19/Coverletterai.html){:target="_blank"}
+ <br> 
+
+***
+<br>
+
+
 # WenBounty #
 
 WenBounty simplifies prize distribution in hackathons. Sponsors can add prize money to a pool that auto-disburses funds to winners. This will benefit everyone in the following ways:
