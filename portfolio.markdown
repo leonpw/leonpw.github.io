@@ -20,7 +20,7 @@ Cover Letter AI is an automated system to generate a cover letter for a job appl
 ![screenshot](./coverletter.png)
 
 <br>
-[Live app](https://cover-letter.wieisleon.nl/){:target="_blank"}
+[~~Live app~~](https://cover-letter.wieisleon.nl/){:target="_blank"}
  <br>
 [Source](https://github.com/leonpw/gpt-cover-letter){:target="_blank"}
  <br> 
@@ -42,7 +42,7 @@ WenBounty simplifies prize distribution in hackathons. Sponsors can add prize mo
 ![screenshot](./https __wenbounty.zzzy.io.png)
 
 <br>
-[Wenbounty app](https://wenbounty.zzzy.io/){:target="_blank"}
+[~~Wenbounty app~~](https://wenbounty.zzzy.io/){:target="_blank"}
  <br>
 [Source](https://github.com/eldnctlh/group-9-capstone-project){:target="_blank"}
  <br> 

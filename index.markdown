@@ -8,4 +8,4 @@ title: Welcome
 
 
 
-Here you can find my [🧵 portfolio](/portfolio/) and [📃 resume](/resume/). Or visit my random blog posts down here: 👇
+Here you can find my [🧵 portfolio](/portfolio/) or visit my random blog posts down here: 👇
